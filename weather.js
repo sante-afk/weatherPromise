@@ -5,11 +5,43 @@
 
 
 (() => {
-    _getCoordLonLat();
-    _getWeatherDescription();
+    _getWeatherCountry();
+    // _getWeatherCoordLonLat();
+    // _getWeatherDescription();
 })();
+function _getWeatherCountry () {
+    return new Promise ((resolve, reject) => {
+        fetch("https://api.openweathermap.org/data/2.5/weather?" +
+            "lat=&" +
+            "lon=&" +
+            "appid=")
+        .then(response => {
+            return response.json();
+        })
+            .then(oData => {
+                if (oData) {
+                    const country = document.getElementById('country');
+                    country.textContent = oData.sys.country;
+                    resolve(oData);
+                }
+            })
+            .catch(oError => {
+                if (oError) {
+                    new Error('What kind of country is this?)' + oError.status);
+                    reject(oError);
+                }
+            })
+        .catch(oError => {
+            if (oError) {
+                new Error('response error' + oError.status);
+                reject(oError);
+            }
+        });
 
-function _getCoordLonLat () {
+    })
+}
+
+function _getWeatherCoordLonLat () {
     return new Promise ((resolve, reject) => {
         fetch("https://api.openweathermap.org/data/2.5/weather?" +
             "lat=&" +
@@ -38,7 +70,7 @@ function _getCoordLonLat () {
                     new Error('response error' + oError.status);
                     reject(oError);
                 }
-            })
+            });
                 
     });
 }
@@ -48,7 +80,7 @@ function _getWeatherDescription () {
         fetch("https://api.openweathermap.org/data/2.5/weather?" +
             "lat=&" +
             "lon=&" +
-             "appid=")
+            "appid=")
             .then(response => {
                 return response.json();
             })
@@ -70,6 +102,6 @@ function _getWeatherDescription () {
                     new Error('response error' + oError.status);
                     reject(oError);
                 }
-            })
+            });
     });
 }
