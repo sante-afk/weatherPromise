@@ -5,39 +5,39 @@
 
 
 (() => {
+    _getWeatherTemp();
     _getWeatherCountry();
-    // _getWeatherCoordLonLat();
-    // _getWeatherDescription();
+    _getWeatherCoordLonLat();
+    _getWeatherDescription();
 })();
 function _getWeatherCountry () {
     return new Promise ((resolve, reject) => {
         fetch("https://api.openweathermap.org/data/2.5/weather?" +
-            "lat=&" +
-            "lon=&" +
-            "appid=")
-        .then(response => {
-            return response.json();
-        })
-            .then(oData => {
-                if (oData) {
-                    const country = document.getElementById('country');
-                    country.textContent = oData.sys.country;
-                    resolve(oData);
-                }
+            "lat=57.62987&" +
+            "lon=39.87368&" +
+            "appid=bd5e378503939ddaee76f12ad7a97608")
+            .then(response => {
+                return response.json();
             })
+                .then(oData => {
+                    if (oData) {
+                        const country = document.getElementById('country');
+                        country.textContent = oData.sys.country;
+                        resolve(oData);
+                    }
+                })
+                .catch(oError => {
+                    if (oError) {
+                        new Error('What kind of country is this?)' + oError.status);
+                        reject(oError);
+                    }
+                })
             .catch(oError => {
                 if (oError) {
-                    new Error('What kind of country is this?)' + oError.status);
+                    new Error('response error' + oError.status);
                     reject(oError);
                 }
-            })
-        .catch(oError => {
-            if (oError) {
-                new Error('response error' + oError.status);
-                reject(oError);
-            }
-        });
-
+            });
     })
 }
 
@@ -104,4 +104,39 @@ function _getWeatherDescription () {
                 }
             });
     });
+}
+
+function _getWeatherTemp () {
+    return new Promise ((resolve, reject) => {
+        fetch("https://api.openweathermap.org/data/2.5/weather?" +
+            "lat=&" +
+            "lon=8&" +
+            "appid=")
+            .then(response => {
+                return response.json();
+            })
+                .then(oData => {
+                    let tempFahrenheit = document.getElementById('tempFahrenheit');
+                    let tempContextFahrenheit = oData.main.temp;
+                    let tempFah = ((tempContextFahrenheit - 273.15) * 1.8) + 32
+                    tempFahrenheit.textContent = Math.ceil(tempFah);
+
+                    let tempCelsius = document.getElementById('tempCelsius');
+                    let tempContextCelsius = oData.main.temp;
+                    let tempCels = tempContextCelsius - 273.15
+                    tempCelsius.textContent = Math.ceil(tempCels);
+                })
+                .catch(oError => {
+                if (oError) {
+                    new Error('Good weather!' + oError.status);
+                    reject(oError);
+                }
+            })
+            .catch(oError => {
+                if (oError) {
+                    new Error('response error' + oError.status);
+                    reject(oError);
+                }
+            });
+    })
 }
