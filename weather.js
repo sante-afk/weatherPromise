@@ -3,9 +3,17 @@
 // lon={lon}&
 // appid={API key}
 
-function getCoordLonLat () {
+
+(() => {
+    _getCoordLonLat();
+})();
+
+function _getCoordLonLat () {
     return new Promise ((resolve, reject) => {
-        fetch("https://api.openweathermap.org/data/2.5/weather?lat=???&lon=????&appid=????")
+        fetch("https://api.openweathermap.org/data/2.5/weather?" +
+            "lat=&" +
+            "lon=&" +
+             "appid=")
             .then(response => {
                 return response.json();
             })
@@ -20,18 +28,16 @@ function getCoordLonLat () {
                 })
                 .catch(oError => {
                     if (oError) {
-                        new Error('excuse me, you... where are you?)');
+                        new Error('excuse me, you... where are you?)' + oError.status);
                         reject(oError);
                     }
                 })
             .catch(oError => {
                 if (oError) {
-                    new Error('response error' + response.status);
+                    new Error('response error' + oError.status);
                     reject(oError);
                 }
             })
                 
     });
 }
-
-getCoordLonLat();
