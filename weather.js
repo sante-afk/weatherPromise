@@ -12,9 +12,9 @@
 function _getCoordLonLat () {
     return new Promise ((resolve, reject) => {
         fetch("https://api.openweathermap.org/data/2.5/weather?" +
-            "lat=57.62987&" +
-            "lon=39.87368&" +
-             "appid=bd5e378503939ddaee76f12ad7a97608")
+            "lat=&" +
+            "lon=&" +
+             "appid=")
             .then(response => {
                 return response.json();
             })
@@ -45,7 +45,10 @@ function _getCoordLonLat () {
 
 function _getWeatherDescription () {
     return new Promise ((resolve, reject) => {
-        fetch("https://api.openweathermap.org/data/2.5/weather?lat=57.62987&lon=39.87368&appid=bd5e378503939ddaee76f12ad7a97608")
+        fetch("https://api.openweathermap.org/data/2.5/weather?" +
+            "lat=&" +
+            "lon=&" +
+             "appid=")
             .then(response => {
                 return response.json();
             })
